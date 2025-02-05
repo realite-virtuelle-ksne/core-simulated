@@ -13,18 +13,20 @@ public struct VerletNode
 
 public class VerletRope : MonoBehaviour
 {
-    private VerletNode[] m_VerletNodes;
-    [SerializeField] private float m_RopeLength;
-    [SerializeField] private int m_NumberOfNodes;
-    [SerializeField] private int m_ConstraintIterationCount;
-    [SerializeField] private Vector3 m_Gravity;
-    private float m_DistanceBetweenNodes;
-    [SerializeField] private float m_RopeRadius;
-    [SerializeField] private int m_SubSteps = 4;
-
     // Points A et B
     [SerializeField] private Transform m_PointA;
     [SerializeField] private Transform m_PointB;
+
+    private VerletNode[] m_VerletNodes;
+    [SerializeField] private float m_RopeLength;
+    [SerializeField] private int m_NumberOfNodes = 10; // Moins de nœuds pour un câble rigide
+    [SerializeField] private int m_ConstraintIterationCount = 1; // Moins d'itérations pour rigidité
+    [SerializeField] private Vector3 m_Gravity;
+    private float m_DistanceBetweenNodes;
+    [SerializeField] private float m_RopeRadius;
+    [SerializeField] private int m_SubSteps = 2; // Moins de sous-steps pour optimiser
+    [SerializeField] private float m_RigidityFactor = 1.0f; // Nouveau facteur de rigidité
+
 
     private RopeRenderer m_RopeRenderer;
 
@@ -69,17 +71,7 @@ public class VerletRope : MonoBehaviour
         {
             var currNode = m_VerletNodes[i];
             var newPreviousPosition = currNode.Position;
-
             var newPosition = (2 * currNode.Position) - currNode.PrevoiusPosition + gravityStep;
-
-            Vector3 direction = newPosition - currNode.Position;
-            float distance = direction.magnitude;
-            direction.Normalize();
-
-            if (Physics.SphereCast(currNode.Position, m_RopeRadius, direction, out RaycastHit hit, distance))
-            {
-                newPosition = hit.point + hit.normal * m_RopeRadius;
-            }
 
             m_VerletNodes[i].PrevoiusPosition = newPreviousPosition;
             m_VerletNodes[i].Position = newPosition;
@@ -102,10 +94,10 @@ public class VerletRope : MonoBehaviour
             var d3 = (d2 - m_DistanceBetweenNodes) / d2;
 
             if (i > 0) // Ne pas déplacer le Point A
-                m_VerletNodes[i].Position -= (d1 * (0.5f * d3));
+                m_VerletNodes[i].Position -= (d1 * (0.5f * d3 * m_RigidityFactor));
 
             if (i < m_VerletNodes.Length - 2) // Ne pas déplacer le Point B
-                m_VerletNodes[i + 1].Position += (d1 * (0.5f * d3));
+                m_VerletNodes[i + 1].Position += (d1 * (0.5f * d3 * m_RigidityFactor));
         }
     }
 
