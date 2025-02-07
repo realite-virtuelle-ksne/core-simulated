@@ -1,3 +1,10 @@
+
+/***
+ * Script permettant de gérer la logique de la rotation de la bombe lorsqu'on le grab
+ * Date de création : janvier 2025
+ * Auteur : Uzeir JOOMUN
+ */
+
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 

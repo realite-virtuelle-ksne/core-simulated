@@ -1,3 +1,9 @@
+/***
+ * Script permettant de gérer l'affichage d'un contour coloré autour d'un objet survolé
+ * Date de création : janvier 2025
+ * Auteur : Uzeir JOOMUN
+ */
+
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 

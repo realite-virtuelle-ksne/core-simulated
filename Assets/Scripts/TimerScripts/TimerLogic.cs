@@ -1,3 +1,9 @@
+/***
+ * Script permettant de gérer la logique pour le timer de la bombe
+ * Date de création : janvier 2025 
+ * Auteur : Uzeir JOOMUN
+ */
+
 using UnityEngine;
 using TMPro;
 

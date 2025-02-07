@@ -1,8 +1,13 @@
+/***
+ * Script permettant de gérer le comportement du bouton du module "Bouton"
+ * Date de création : 01/2025
+ * Auteur : Uzeir JOOMUN
+ */
+
+
 using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.XR;
 using UnityEngine.XR.Interaction.Toolkit;
 
 public class ButtonBehavior : MonoBehaviour
@@ -38,7 +43,7 @@ public class ButtonBehavior : MonoBehaviour
     public Material errorModuleMaterial; // Matériau pour les erreurs
 
     [SerializeField]
-    public Material lightBandMaterial; // Matériau pour l'état "en attente"
+    public Material lightBandMaterial; // Matériau lorsque le bouton est maintenu
 
     [SerializeField]
     public Material initialGlassMaterial; // Matériau initial pour la LED et le lightBand
@@ -160,7 +165,7 @@ public class ButtonBehavior : MonoBehaviour
         holdTimer = 0f;
     }
 
-    // Méthode pour changer le matériau du lightBand
+    // Changement du matériau du lightBand
     private void SetLightBandMaterial(Material material)
     {
         if (lightBand != null)
@@ -173,7 +178,9 @@ public class ButtonBehavior : MonoBehaviour
         }
     }
 
-    // Coroutine pour changer le matériau du lightBand après un délai
+    /**
+     * Coroutine pour changer le matériau du lightBand après un délai
+     */
     private IEnumerator ChangeLightBandMaterialAfterDelay(Material material, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -185,7 +192,9 @@ public class ButtonBehavior : MonoBehaviour
         }
     }
 
-    // Coroutine pour réinitialiser le matériau après un délai
+    /**
+     * Coroutine pour réinitialiser le matériau après un délai
+     */
     private IEnumerator ResetMaterialAfterDelay(GameObject targetObject, Material material, float delay)
     {
         yield return new WaitForSeconds(delay);
@@ -200,6 +209,9 @@ public class ButtonBehavior : MonoBehaviour
         }
     }
 
+    /**
+     * Cette fonction permet de désactiver le module lorsque ce dernier est résolu
+     */
     private void DisableModule()
     {
         if (highlightOnHover != null)
