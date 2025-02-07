@@ -14,19 +14,18 @@ public class PorteLogique : MonoBehaviour
     public GameObject light_Resultat; // Objet dont la couleur changera
     public GameObject TextObject; // Objet contenant le texte (par exemple, un cube)
 
-    private bool boutonAActif = false; // État du BoutonA
-    private bool boutonBActif = false; // État du BoutonB
-
-    public bool lastGate = false;
-
+    private bool LightAActif = false; // État du BoutonA
+    private bool LightBActif = false; // État du BoutonB
     // Types de portes logiques
     public enum TypePorte { AND, OR, XOR, NAND, NOR, XNOR };
     public TypePorte typePorte = TypePorte.AND; // Par défaut, c'est une porte AND
-    bool update_output()
+    
+    protected static bool moduleIsFInished = false;
+    protected internal virtual bool UpdateOutput()
     {
         // Vérifier si les boutons sont activés
-        boutonAActif = BoutonA.GetComponent<ComposantLumineux>().estActif;
-        boutonBActif = BoutonB.GetComponent<ComposantLumineux>().estActif;
+        LightAActif = BoutonA.GetComponent<ComposantLumineux>().estActif;
+        LightBActif = BoutonB.GetComponent<ComposantLumineux>().estActif;
 
         // Vérifier la logique
         bool resultat = false;
@@ -34,66 +33,47 @@ public class PorteLogique : MonoBehaviour
         switch (typePorte)
         {
             case TypePorte.AND:
-                resultat = boutonAActif && boutonBActif;
+                resultat = LightAActif && LightBActif;
                 break;
 
             case TypePorte.OR:
-                resultat = boutonAActif || boutonBActif;
+                resultat = LightAActif || LightBActif;
                 break;
 
             case TypePorte.XOR:
-                resultat = boutonAActif ^ boutonBActif;
+                resultat = LightAActif ^ LightBActif;
                 break;
 
             case TypePorte.NAND:
-                resultat = !(boutonAActif && boutonBActif);
+                resultat = !(LightAActif && LightBActif);
                 break;
 
             case TypePorte.NOR:
-                resultat = !(boutonAActif || boutonBActif);
+                resultat = !(LightAActif || LightBActif);
                 break;
 
             case TypePorte.XNOR:
-                resultat = !(boutonAActif ^ boutonBActif);
+                resultat = !(LightAActif ^ LightBActif);
                 break;
         }
         // Mettre à jour l'état de la lumière
         light_Resultat.GetComponent<ComposantLumineux>().estActif = resultat;
         return resultat;
     }
-    void newTypePorte()
+    public void NewTypePorte()
     {
         // Choisir aléatoirement le type de porte
         typePorte = (TypePorte)Random.Range(0, System.Enum.GetValues(typeof(TypePorte)).Length);
     }
 
-
-
-    // Start est appelé au début du jeu
-    void Start()
+    protected void InitTextMeshPro()
     {
-        //modulePorteLogiqueFinished = false;
-
-        newTypePorte();
-        update_output();
-
-        boutonAActif = false; // Initialisation des états des boutons
-        boutonBActif = false;
-
-        while (update_output() && lastGate)
-        {
-            newTypePorte(); 
-        }
-
-
         // Ajouter un composant TextMesh à l'objet de texte
         TextMeshPro textMesh = TextObject.GetComponent<TextMeshPro>();
         if (textMesh == null)
         {
             textMesh = TextObject.AddComponent<TextMeshPro>();
         }
-
-
 
         // Définir le texte en fonction du type de porte
         switch (typePorte)
@@ -124,21 +104,21 @@ public class PorteLogique : MonoBehaviour
         }
     }
 
+
+    protected internal void StartPorte()
+    {
+        NewTypePorte();
+        UpdateOutput();
+
+        InitTextMeshPro();
+    }
+
     // Update est appelé une fois par frame
     void Update()
     {
-        /*
-        if (!modulePorteLogiqueFinished)
+        if (!moduleIsFInished)
         {
-            bool b = update_output();
-            
-            if (lastGate && b)
-            {
-                print(name + "    FINISHED ==============");
-                modulePorteLogiqueFinished = true;
-            }
-        }*/
-        update_output();
-        
+            UpdateOutput();
+        }
     }
 }
