@@ -7,7 +7,7 @@
 using UnityEngine;
 using TMPro;
 
-public class TimerLogic : MonoBehaviour
+public class TimerLogic : MonoBehaviour, ITimer
 {
     [SerializeField]
     TextMeshPro TimerText;
@@ -61,5 +61,11 @@ public class TimerLogic : MonoBehaviour
                 AudioSource.PlayOneShot(TickSound);
             }
         }
+    }
+
+    // Implémentation de l'interface ITimer
+    public float GetRemainingTime()
+    {
+        return RemainingTime;
     }
 }

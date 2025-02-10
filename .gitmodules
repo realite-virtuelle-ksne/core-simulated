@@ -1,0 +1,3 @@
+[submodule "Assets/Assets/my-unity-package"]
+	path = Assets/Assets/my-unity-package
+	url = https://github.com/cyrilclovis/my-unity-package.git

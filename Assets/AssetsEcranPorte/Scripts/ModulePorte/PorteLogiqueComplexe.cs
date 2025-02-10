@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-public class PorteLogiqueComplexe : PorteLogique
+public class PorteLogiqueComplexe : PorteLogique, IModule
 {
     public GameObject PorteLogiqueA;
     public GameObject PorteLogiqueB;
+    private bool moduleIsFInished = false;
 
     override
     protected internal bool UpdateOutput()
@@ -78,5 +79,11 @@ public class PorteLogiqueComplexe : PorteLogique
                 moduleIsFInished = true;
             }
         }
+    }
+
+    // Implémentation de l'interface IModule
+    public bool IsFinished()
+    {
+        return moduleIsFInished;
     }
 }

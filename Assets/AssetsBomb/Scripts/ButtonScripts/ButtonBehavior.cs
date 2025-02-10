@@ -10,7 +10,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
 
-public class ButtonBehavior : MonoBehaviour
+public class ButtonBehavior : MonoBehaviour, IModule
 {
     [SerializeField]
     private float holdTime = 2f; // Temps pour maintenir le bouton avant de changer le matériau
@@ -228,6 +228,14 @@ public class ButtonBehavior : MonoBehaviour
 
         // Désactiver ce script
         this.enabled = false;
+    }
+
+    /**
+    * Implémentation de l'interface IModule
+    */
+    public bool IsFinished()
+    {
+        return moduleSuccess;
     }
 
 }
