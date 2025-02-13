@@ -74,5 +74,3 @@ crashlytics-build.properties
 
 # Because I partially use vscode in order to handle git
 .vsconfig
-
-Assets/my-unity-package/
